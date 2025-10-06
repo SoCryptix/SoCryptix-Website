@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoCryptix - Hands-On Electronics for Curious Minds</title>
+    <meta name="description" content="Transform your curiosity into expertise with SoCryptix. Learn electronics through hands-on projects and expert guidance. WhatsApp: +91 9883727097">
+    <meta name="keywords" content="electronics courses, electronics learning, hands-on electronics, circuit design, Arduino, Raspberry Pi, IoT projects">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-cyan: #00ffff;
+            --primary-magenta: #ff00ff;
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .circuit-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 255, 255, 0.3) 50px, rgba(0, 255, 255, 0.3) 51px),
+                repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 0, 255, 0.3) 50px, rgba(255, 0, 255, 0.3) 51px);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5em;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-cyan);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-cyan);
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        header {
+            padding: 40px 0;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-magenta), var(--primary-cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: var(--primary-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3em;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out backwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: var(--primary-cyan);
+        }
+
+        .feature-card p {
+            color: #c0c0c0;
+            line-height: 1.6;
+        }
+
+        /* Courses Section */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-magenta);
+            box-shadow: 0 10px 40px rgba(255, 0, 255, 0.3);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .course-content {
+            padding: 25px;
+        }
+
+        .course-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: var(--primary-cyan);
+        }
+
+        .course-card p {
+            color: #c0c0c0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .course-features {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .course-features li {
+            padding: 8px 0;
+            color: #a0a0a0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-features li:before {
+            content: "✓ ";
+            color: var(--primary-cyan);
+            font-weight: bold;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8em;
+            color: var(--primary-cyan);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .course-image img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 6));
+            border-radius: 15px;}
+        .stat-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-cyan);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            margin-top: 10px;
+        }
+
+        /* Gallery Section */
+        .gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    filter: brightness(0.9);
+    transition: all 0.3s ease;
+}
+
+.gallery-item img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 10px;
+    filter: brightness(0.9);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover img {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+.gallery-item:hover video {
+    filter: brightness(1.1);
+}
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            height: 250px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .gallery-item::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            font-size: 0.4em;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover::after {
+            transform: translateY(0);
+        }
+
+        /* Add this to your <style> section */
+.project-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
+}
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 4px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .testimonial-text {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-magenta));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .author-info h4 {
+            color: var(--primary-cyan);
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .stars {
+            color: #ffd700;
+            margin-top: 15px;
+        }
+
+        /* Contact Form */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-cyan);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-magenta));
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .contact-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 2.5em;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .contact-details h3 {
+            color: var(--primary-cyan);
+            margin-bottom: 8px;
+        }
+
+        .contact-details a {
+            color: #c0c0c0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--primary-magenta);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-magenta));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(0, 255, 255, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-cyan);
+        }
+img {
+  border-radius: 50%;
+  margin: 5px;
+  background-color: #fff;
+  padding: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 14, 39, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 { font-size: 2em; }
+            .hero h2 { font-size: 2em; }
+            .section-title { font-size: 2em; }
+        }
+
+        @media (max-width: 768px) {
+            .cta-button { 
+                font-size: 1.2em; 
+                padding: 15px 35px; 
+            }
+            
+            .courses-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circuit-bg"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">SoCryptix</div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Header -->
+        <header id="home">
+            <div class="logo">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Microchip outline with circuit paths -->
+                    <defs>
+                        <linearGradient id="chipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0080ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Circuit pins - top -->
+                    <line x1="60" y1="30" x2="60" y2="10" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="60" cy="10" r="4" fill="#00ffff"/>
+                    
+                    <line x1="80" y1="30" x2="80" y2="10" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="80" cy="10" r="4" fill="#00ffff"/>
+                    
+                    <line x1="100" y1="30" x2="100" y2="10" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="100" cy="10" r="4" fill="#00ffff"/>
+                    
+                    <line x1="120" y1="30" x2="120" y2="10" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="120" cy="10" r="4" fill="#00ffff"/>
+                    
+                    <line x1="140" y1="30" x2="140" y2="10" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="140" cy="10" r="4" fill="#00ffff"/>
+                    
+                    <!-- Circuit pins - bottom -->
+                    <line x1="60" y1="170" x2="60" y2="190" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="60" cy="190" r="4" fill="#00ffff"/>
+                    
+                    <line x1="80" y1="170" x2="80" y2="190" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="80" cy="190" r="4" fill="#00ffff"/>
+                    
+                    <line x1="100" y1="170" x2="100" y2="190" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="100" cy="190" r="4" fill="#00ffff"/>
+                    
+                    <line x1="120" y1="170" x2="120" y2="190" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="120" cy="190" r="4" fill="#00ffff"/>
+                    
+                    <line x1="140" y1="170" x2="140" y2="190" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="140" cy="190" r="4" fill="#00ffff"/>
+                    
+                    <!-- Circuit pins - left -->
+                    <line x1="30" y1="60" x2="10" y2="60" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="10" cy="60" r="4" fill="#00ffff"/>
+                    
+                    <line x1="30" y1="80" x2="10" y2="80" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="10" cy="80" r="4" fill="#00ffff"/>
+                    
+                    <line x1="30" y1="120" x2="10" y2="120" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="10" cy="120" r="4" fill="#00ffff"/>
+                    
+                    <line x1="30" y1="140" x2="10" y2="140" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="10" cy="140" r="4" fill="#00ffff"/>
+                    
+                    <!-- Circuit pins - right -->
+                    <line x1="170" y1="60" x2="190" y2="60" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="190" cy="60" r="4" fill="#00ffff"/>
+                    
+                    <line x1="170" y1="80" x2="190" y2="80" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="190" cy="80" r="4" fill="#00ffff"/>
+                    
+                    <line x1="170" y1="120" x2="190" y2="120" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="190" cy="120" r="4" fill="#00ffff"/>
+                    
+                    <line x1="170" y1="140" x2="190" y2="140" stroke="url(#chipGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="190" cy="140" r="4" fill="#00ffff"/>
+                    
+                    <!-- Main chip body -->
+                    <rect x="30" y="30" width="140" height="140" rx="8" fill="none" stroke="url(#chipGradient)" stroke-width="4"/>
+                    
+                    <!-- Inner circuit frame -->
+                    <rect x="50" y="50" width="100" height="100" rx="6" fill="none" stroke="#0080ff" stroke-width="3"/>
+                    
+                    <!-- Shield in center -->
+                    <path d="M 100 70 L 85 75 L 85 100 Q 85 115 100 125 Q 115 115 115 100 L 115 75 Z" 
+                          fill="none" stroke="url(#chipGradient)" stroke-width="3"/>
+                    
+                    <!-- Keyhole in shield -->
+                    <circle cx="100" cy="95" r="5" fill="#00ffff"/>
+                    <rect x="98" y="95" width="4" height="10" fill="#00ffff"/>
+                    
+                    <!-- Corner connection dots -->
+                    <circle cx="40" cy="40" r="3" fill="#00ffff"/>
+                    <circle cx="160" cy="40" r="3" fill="#00ffff"/>
+                    <circle cx="40" cy="160" r="3" fill="#00ffff"/>
+                    <circle cx="160" cy="160" r="3" fill="#00ffff"/>
+                </svg>
+            </div>
+            <h1>SoCryptix</h1>
+            <p class="tagline">Hardening Hardware with Crypto</p>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Ever Wonder How the<br>World Lights Up & Moves?</h2>
+            <p class="hero-subtitle">Discover the magic behind everyday electronics!</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🤔</div>
+                <h3>How Do Your Gadgets "Think"?</h3>
+                <p>Uncover the secrets behind processors, circuits, and the technology that powers your daily life.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>What Makes Patterns Appear on Screens?</h3>
+                <p>Learn the fascinating science of displays, pixels, and how images come to life on your devices.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>How Does a Switch Turn On Complex Machines?</h3>
+                <p>Explore the journey from simple switches to intricate electronic systems that power modern technology.</p>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section class="section" id="courses">
+            <h2 class="section-title">Our Courses</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="elec_fund.png" alt="Electronics Fundamentals">
+                    </div>
+                    <div class="course-content">
+                        <h3>Electronics Fundamentals</h3>
+                        <p>Master the basics of circuits, components, and electronic principles through hands-on experiments.</p>
+                        <ul class="course-features">
+                            <li>Circuit Theory</li>
+                            <li>Component Identification</li>
+                            <li>Breadboard Projects</li>
+                            <li>Basic Troubleshooting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+    <div class="course-image">
+        <img src="microcontroller.png" alt="Arduino & Microcontrollers">
+    </div>
+    <div class="course-content">
+        <h3>Arduino & Microcontrollers</h3>
+                        <p>Bring your projects to life with programmable microcontrollers and sensor integration.</p>
+                        <ul class="course-features">
+                            <li>Arduino Programming</li>
+                            <li>Sensor Integration</li>
+                            <li>Motor Control</li>
+                            <li>IoT Projects</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+    <div class="course-image">
+        <img src="iot.png" alt="IoT & Wireless Communication">
+    </div>
+    <div class="course-content">
+        <h3>IoT & Wireless Communication</h3>
+                        <p>Connect devices to the internet and explore the world of smart, connected systems.</p>
+                        <ul class="course-features">
+                            <li>WiFi & Bluetooth</li>
+                            <li>Cloud Integration</li>
+                            <li>Smart Home Projects</li>
+                            <li>Data Monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+    <div class="course-image">
+        <img src="robot.png" alt="Robotics & Automation">
+    </div>
+    <div class="course-content">
+        <h3>Robotics & Automation</h3>
+                        <p>Design and build autonomous robots with sensors, motors, and intelligent control systems.</p>
+                        <ul class="course-features">
+                            <li>Robot Design</li>
+                            <li>Autonomous Navigation</li>
+                            <li>Sensor Fusion</li>
+                            <li>Competition Prep</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+    <div class="course-image">
+        <img src="pcb.png" alt="PCB Design & Fabrication">
+    </div>
+    <div class="course-content">
+        <h3>PCB Design & Fabrication</h3>
+                        <p>Learn to design professional circuit boards and bring your electronic projects to production.</p>
+                        <ul class="course-features">
+                            <li>Schematic Design</li>
+                            <li>PCB Layout</li>
+                            <li>Manufacturing Process</li>
+                            <li>Prototyping</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+    <div class="course-image">
+        <img src="digital.png" alt="Digital Design & FPGA">
+    </div>
+    <div class="course-content">
+        <h3>Digital Design & FPGA</h3>
+                        <p>Master hardware description languages and programmable logic for high-performance digital systems.</p>
+                        <ul class="course-features">
+                            <li>Verilog & VHDL</li>
+                            <li>FPGA Programming</li>
+                            <li>Digital Logic Design</li>
+                            <li>Prototyping</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">💡</div>
+                    <div class="course-content">
+                        <h3>Advanced Projects</h3>
+                        <p>Take on challenging projects and develop expertise in specialized electronics domains.</p>
+                        <ul class="course-features">
+                            <li>Custom Solutions</li>
+                            <li>Industry Applications</li>
+                            <li>Research Projects</li>
+                            <li>Portfolio Building</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="about">
+            <h2 class="section-title">About SoCryptix</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Empowering Tomorrow's Innovators</h3>
+                    <p>At SoCryptix, we believe that understanding electronics is the key to unlocking endless possibilities in the modern world. Our hands-on approach transforms complex concepts into exciting, practical learning experiences.</p>
+                    <p>Whether you're a curious beginner or an aspiring engineer, our expert instructors guide you through every step of your electronics journey. We combine theoretical knowledge with real-world projects to ensure you gain practical skills that matter.</p>
+                    <p>Join our community of makers, thinkers, and innovators who are shaping the future of technology, one circuit at a time.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Students Trained</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section" id="gallery">
+            <h2 class="section-title">Project Gallery</h2>
+            <div class="gallery-grid">
+    <div class="gallery-item" data-title="Arduino Projects">
+        <video autoplay muted loop playsinline>
+            <source src="flag.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+                <div class="gallery-item" data-title="Circuit Designs">
+        <img src="circuit.png" alt="Circuit Designs">
+    </div>
+                <div class="gallery-item" data-title="Robot Prototypes">
+        <img src="roboti.png" alt="Robot Prototypes">
+    </div>
+                <div class="gallery-item" data-title="IoT Devices">
+        <video autoplay muted loop playsinline>
+            <source src="ioti.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+                <div class="gallery-item" data-title="LED Displays">
+        <video autoplay muted loop playsinline>
+            <source src="led.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+                <div class="gallery-item" data-title="Student Workshops">
+        <video autoplay muted loop playsinline>
+            <source src="woi.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+            </div>
+        </section>
+
+<!-- Add this RIGHT BEFORE the testimonials section -->
+
+<section style="padding: 60px 0;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            
+            <!-- Card 1: All Projects -->
+             
+            <div style="background: var(--card-bg); border-radius: 20px; padding: 40px; text-align: center; backdrop-filter: blur(10px); border: 2px solid var(--primary-cyan); transition: all 0.3s ease;">
+                <div style="font-size: 3.5em; margin-bottom: 20px;">🚀</div>
+                <h2 style="font-size: 2em; margin-bottom: 15px; background: linear-gradient(90deg, var(--primary-cyan), var(--primary-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Project Showcase
+                </h2>
+                <p style="font-size: 1.1em; color: #c0c0c0; margin-bottom: 25px;">
+                    Explore amazing projects created by us and our students that bring ideas to life!
+                </p>
+               
+
+                <section class="cta-section">
+            <a class="cta-button"  href="https://nishitbayen.my.canva.site/" target="_blank" style="display: inline-block; padding: 12px 35px; background: linear-gradient(135deg, var(--primary-cyan), var(--primary-magenta)); color: #fff; text-decoration: none; border-radius: 50px; font-size: 1.1em; font-weight: bold; transition: all 0.3s ease;">
+                    View Other Projects →
+                </a>
+          
+        </section>
+
+            </div>
+
+            <!-- Card 2: Advanced Projects -->
+             
+            <div style="background: var(--card-bg); border-radius: 20px; padding: 40px; text-align: center; backdrop-filter: blur(10px); border: 2px solid var(--primary-magenta); transition: all 0.3s ease;">
+                <div style="font-size: 3.5em; margin-bottom: 20px;">💡</div>
+                <h2 style="font-size: 2em; margin-bottom: 15px; background: linear-gradient(90deg, var(--primary-magenta), var(--primary-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Advanced Projects
+                </h2>
+                <p style="font-size: 1.1em; color: #c0c0c0; margin-bottom: 25px;">
+                    Dive into cutting-edge research and industry-level electronics innovations
+                </p>
+                  <section class="cta-section">
+            <a class="cta-button"  href="https://tangerine-axolotl-217c57.netlify.app/#projects" target="_blank" style="display: inline-block; padding: 12px 35px; background: linear-gradient(135deg, var(--primary-magenta), var(--primary-cyan)); color: #fff; text-decoration: none; border-radius: 50px; font-size: 1.1em; font-weight: bold; transition: all 0.3s ease;">
+                    View Advanced Projects →
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section starts here -->
+<section class="section" id="testimonials">
+
+        <!-- Testimonials Section -->
+        <section class="section" id="testimonials">
+            <h2 class="section-title">What Our Students Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"SoCryptix transformed my understanding of electronics. The hands-on approach made learning so much more engaging and practical. I built my first robot here!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <h4>Rahul Sharma</h4>
+                            <p>Engineering Student</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The instructors are incredibly knowledgeable and patient. They break down complex concepts into simple, understandable pieces. Best electronics course I've taken!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">P</div>
+                        <div class="author-info">
+                            <h4>Priya Mehta</h4>
+                            <p>Hobbyist Maker</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"I came with zero knowledge and left building IoT projects. The curriculum is well-structured and the practical sessions are invaluable. Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Ankit Das</h4>
+                            <p>Tech Enthusiast</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <a href="#contact" class="cta-button">Start Your Journey Here!</a>
+            <p style="margin-top: 30px; font-size: 1.2em; color: var(--primary-cyan);">SoCryptix Presents: Hands-On Electronics for Curious Minds</p>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section" id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3 style="color: var(--primary-cyan); margin-bottom: 25px;">Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your interest in electronics..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info-section">
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <a href="https://wa.me/919883727097" target="_blank">+91 9883727097</a>
+                            <p style="color: #888; margin-top: 5px;">Chat with us instantly</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:socryptix@gmail.com">socryptix@gmail.com</a>
+                            <p style="color: #888; margin-top: 5px;">We reply within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Location</h3>
+                            <p style="color: #c0c0c0;">Durgapur, West Bengal</p>
+                            <p style="color: #888; margin-top: 5px;">Visit us for a demo session</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h3>Working Hours</h3>
+                            <p style="color: #c0c0c0;">Mon - Sat: 9:00 AM - 7:00 PM</p>
+                            <p style="color: #888; margin-top: 5px;">Sunday by appointment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- Footer -->
+        <footer>
+            <h3>Connect with Us</h3>
+            <a href="www.youtube.com/@socryptix" target="_blank">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="40" height="40">
+</a>
+<a href="https://github.com/yourusername" target="_blank">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="40" height="40">
+</a>
+<a href="https://linkedin.com/in/yourusername" target="_blank">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" width="40" height="40">
+</a>
+<a href="https://www.facebook.com/profile.php?id=61581983513572" target="_blank">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" width="40" height="40" style>
+</a>
+<a href="https://instagram.com/yourusername" target="_blank">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="40" height="40" style="color:#E4405F">
+</a>
+
+
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#courses">Courses</a>
+                <a href="#about">About</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p style="margin-top: 20px;">&copy; 2025 SoCryptix. All rights reserved.</p>
+            <p style="margin-top: 10px;">Empowering curious minds through hands-on electronics education</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            const whatsappMessage = `Hi! I'm ${name}%0A%0AEmail: ${email}%0APhone: ${phone}%0A%0AMessage: ${message}`;
+            const whatsappUrl = `https://wa.me/919883727097?text=${whatsappMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            this.reset();
+            alert('Thank you! You will be redirected to WhatsApp to complete your inquiry.');
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .course-card, .testimonial-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
